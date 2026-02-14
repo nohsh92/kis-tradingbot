@@ -7,7 +7,10 @@ from app.connectors.kis.token_manager import KISTokenManager
 def get_token_manager(request: Request) -> KISTokenManager:
     manager = getattr(request.app.state, "kis_token_manager", None)
     if manager is None:
-        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="KIS token manager unavailable")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="KIS token manager unavailable",
+        )
     return manager
 
 

@@ -72,7 +72,7 @@ export class WorkspaceStore {
     };
 
     await this.localStore.saveWorkspace(next);
-    await this.apiClient.upsertWorkspace(next);
+    await this.apiClient.upsertWorkspace(next, true);
 
     this.state = {
       ...this.state,
@@ -94,7 +94,7 @@ export class WorkspaceStore {
     };
 
     await this.localStore.saveWorkspace(next);
-    await this.apiClient.upsertWorkspace(next);
+    await this.apiClient.upsertWorkspace(next, false);
 
     this.state = {
       ...this.state,

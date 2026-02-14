@@ -27,10 +27,17 @@ export default [
         fetch: 'readonly',
         crypto: 'readonly',
         HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
         RequestInit: 'readonly',
         IDBDatabase: 'readonly',
         IDBTransactionMode: 'readonly',
-        IDBObjectStore: 'readonly'
+        IDBObjectStore: 'readonly',
+        KeyboardEvent: 'readonly',
+        requestAnimationFrame: 'readonly',
+        WebSocket: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        global: 'writable'
       }
     },
     plugins: {
@@ -42,6 +49,34 @@ export default [
       ...tsPlugin.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }]
+    }
+  },
+  {
+    files: ['**/*.test.{ts,tsx}', '**/vitest.setup.ts'],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        }
+      },
+      globals: {
+        global: 'writable',
+        vi: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly'
+      }
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin
+    },
+    rules: {
+      ...tsPlugin.configs.recommended.rules
     }
   },
   {
