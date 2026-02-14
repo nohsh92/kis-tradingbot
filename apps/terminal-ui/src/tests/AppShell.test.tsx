@@ -8,6 +8,6 @@ describe('AppShell', () => {
 
     expect(screen.getByText('ENV: Local')).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/Ctrl\+K/)).toBeInTheDocument();
-    expect(screen.getByText('Docking container root placeholder')).toBeInTheDocument();
+    expect(document.querySelector('.flexlayout__layout')).toBeInTheDocument();
   });
 });
