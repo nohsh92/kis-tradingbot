@@ -1,0 +1,12 @@
+services:
+  terminal-backend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: terminal-backend
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8000
