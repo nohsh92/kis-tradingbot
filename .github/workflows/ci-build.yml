@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, develop, feature/**, test/** ]
+  pull_request:
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/terminal-backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Build backend (install check)
+        run: python -c "import app.main; print('Backend build successful')"
+
+  build-ui:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/terminal-ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: apps/terminal-ui/package-lock.json
+      - name: Install UI dependencies
+        run: npm ci
+      - name: Build UI
+        run: npm run build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: terminal-ui-build
+          path: apps/terminal-ui/dist/
+          retention-days: 7
