@@ -1,0 +1,21 @@
+
+echo "Running pre-commit checks for terminal-ui..."
+
+# Navigate to terminal-ui directory
+cd apps/terminal-ui || exit 1
+
+# Run lint checks
+echo "🔍 Running ESLint..."
+npm run lint || {
+  echo "❌ ESLint failed. Please fix the linting errors."
+  exit 1
+}
+
+# Run build to ensure it compiles
+echo "🏗️  Running build..."
+npm run build || {
+  echo "❌ Build failed. Please fix the build errors."
+  exit 1
+}
+
+echo "✅ All pre-commit checks passed!"
