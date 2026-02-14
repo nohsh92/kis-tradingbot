@@ -1,0 +1,16 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main, develop, feature/** ]
+  pull_request:
+
+jobs:
+  lint-placeholders:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repository structure check
+        run: |
+          test -f README.md
+          test -f packages/api-contract/openapi/v1.openapi.json

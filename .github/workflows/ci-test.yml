@@ -1,0 +1,17 @@
+name: Test
+
+on:
+  push:
+    branches: [ main, develop, feature/** ]
+  pull_request:
+
+jobs:
+  smoke-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke checks
+        run: |
+          echo "Backend and UI test suites will be wired as scaffolds are implemented."
+          test -d apps/terminal-ui
+          test -d apps/terminal-backend
