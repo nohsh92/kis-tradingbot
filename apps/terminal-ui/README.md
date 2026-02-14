@@ -37,3 +37,8 @@ This starts:
 - `src/components/StatusBar` - top status bar placeholders
 - `src/components/CommandBar` - global command bar mount placeholder
 - `src/components/Docking` - docking root placeholder container
+
+
+## IPC bridge
+
+The preload script exposes a narrow `desktop` bridge with `getRuntimeInfo()` that invokes a single main-process IPC handler (`app:get-runtime-info`).

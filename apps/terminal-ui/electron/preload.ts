@@ -1,12 +1,16 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
+
+type RuntimeInfo = {
+  platform: string;
+  versions: {
+    electron: string;
+    chrome: string;
+    node: string;
+  };
+};
 
 const desktopApi = {
-  platform: process.platform,
-  versions: {
-    electron: process.versions.electron,
-    chrome: process.versions.chrome,
-    node: process.versions.node
-  }
+  getRuntimeInfo: (): Promise<RuntimeInfo> => ipcRenderer.invoke('app:get-runtime-info')
 };
 
 contextBridge.exposeInMainWorld('desktop', desktopApi);

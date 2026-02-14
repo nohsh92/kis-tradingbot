@@ -1,5 +1,18 @@
 import path from 'node:path';
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
+
+const RUNTIME_INFO_CHANNEL = 'app:get-runtime-info';
+
+const registerIpcHandlers = (): void => {
+  ipcMain.handle(RUNTIME_INFO_CHANNEL, () => ({
+    platform: process.platform,
+    versions: {
+      electron: process.versions.electron,
+      chrome: process.versions.chrome,
+      node: process.versions.node
+    }
+  }));
+};
 
 const createMainWindow = (): void => {
   const window = new BrowserWindow({
@@ -26,6 +39,7 @@ const createMainWindow = (): void => {
 };
 
 app.whenReady().then(() => {
+  registerIpcHandlers();
   createMainWindow();
 
   app.on('activate', () => {
