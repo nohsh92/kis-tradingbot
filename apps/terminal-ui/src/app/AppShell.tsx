@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
 import { CommandBar } from '../components/CommandBar';
-import { Docking } from '../components/Docking';
+import { DockingLayout } from '../components/Docking';
 import { StatusBar } from '../components/StatusBar';
 
 const shellStyle: CSSProperties = {
@@ -16,7 +16,7 @@ export const AppShell = (): JSX.Element => {
   return (
     <div style={shellStyle}>
       <StatusBar />
-      <Docking />
+      <DockingLayout />
       <CommandBar />
     </div>
   );

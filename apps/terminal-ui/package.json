@@ -12,7 +12,8 @@
     "build:electron": "tsc -p tsconfig.electron.json",
     "lint": "eslint . --ext ts,tsx",
     "test": "vitest run",
-    "dist": "npm run build && electron-builder"
+    "dist": "npm run build && electron-builder",
+    "prepare": "husky"
   },
   "build": {
     "appId": "com.kis.terminalui",
@@ -47,6 +48,7 @@
     "eslint": "^9.26.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
