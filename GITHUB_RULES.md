@@ -67,6 +67,31 @@ To fully enable these rules, repository administrators need to:
    - Enable "Allow squash merging" 
    - Disable "Allow merge commits" (optional)
 
-## Testing the Rules
+## Verification Tools
+
+Use these tools to verify your GitHub settings are correctly applied:
+
+### 🚀 Automated Verification
+```bash
+# Run the verification script (requires GitHub CLI)
+./scripts/verify-github-settings.sh
+```
+
+### 📋 Manual Verification
+- **Interactive Checklist**: Open `scripts/check-github-settings.html` in your browser
+- **Detailed Guide**: See `VERIFY_SETTINGS.md` for step-by-step verification
+
+### 🧪 Testing the Rules
+1. **Test direct push protection**: Try pushing to main (should fail)
+2. **Test PR requirements**: Create a PR and verify status checks are required  
+3. **Test merge blocking**: Verify merge button is disabled until checks pass
+
+## Installation Status
+
+- ✅ Configuration files created (`.github/settings.yml`)
+- ✅ CI workflows enhanced with build verification
+- ✅ Pull request template added for consistency
+- ✅ Verification tools provided
+- ⏳ **Manual step required**: Install [GitHub Settings app](https://github.com/apps/settings) or configure manually
 
 This document was created on a test branch to verify the branch protection rules work correctly.
