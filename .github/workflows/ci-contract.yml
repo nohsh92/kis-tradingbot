@@ -1,0 +1,14 @@
+name: Contract Validation
+
+on:
+  push:
+    branches: [ main, develop, feature/** ]
+  pull_request:
+
+jobs:
+  validate-openapi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate OpenAPI JSON syntax
+        run: python -m json.tool packages/api-contract/openapi/v1.openapi.json > /dev/null

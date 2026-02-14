@@ -1,0 +1,119 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "KIS Trading Terminal API",
+    "version": "1.0.0",
+    "description": "OpenAPI-first contract for UI ↔ Backend HTTP endpoints."
+  },
+  "servers": [
+    { "url": "http://localhost:8000/api/v1", "description": "Local development" }
+  ],
+  "paths": {
+    "/workspaces": {
+      "get": {
+        "summary": "List workspaces",
+        "responses": {
+          "200": {
+            "description": "Workspace list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Workspace" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/watchlists": {
+      "get": {
+        "summary": "List watchlists",
+        "responses": {
+          "200": {
+            "description": "Watchlist list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Watchlist" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "post": {
+        "summary": "Place order",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/OrderPlaceRequest" }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Order accepted",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/OrderPlaceResponse" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Workspace": {
+        "type": "object",
+        "required": ["id", "name", "schemaVersion", "layout", "openPanels", "updatedAt"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "schemaVersion": { "type": "integer", "minimum": 1 },
+          "layout": { "type": "object", "additionalProperties": true },
+          "openPanels": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Watchlist": {
+        "type": "object",
+        "required": ["id", "name", "items"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "items": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "OrderPlaceRequest": {
+        "type": "object",
+        "required": ["clientOrderId", "accountId", "symbol", "side", "qty", "type", "venue"],
+        "properties": {
+          "clientOrderId": { "type": "string" },
+          "accountId": { "type": "string" },
+          "symbol": { "type": "string" },
+          "side": { "type": "string", "enum": ["BUY", "SELL"] },
+          "qty": { "type": "integer", "minimum": 1 },
+          "type": { "type": "string", "enum": ["MARKET", "LIMIT"] },
+          "limitPx": { "type": ["number", "null"] },
+          "venue": { "type": "string", "enum": ["KRX", "NXT", "TOTAL", "SOR"] }
+        }
+      },
+      "OrderPlaceResponse": {
+        "type": "object",
+        "required": ["orderId", "status"],
+        "properties": {
+          "orderId": { "type": "string" },
+          "status": { "type": "string", "enum": ["CREATED", "REJECTED"] }
+        }
+      }
+    }
+  }
+}
