@@ -66,14 +66,63 @@ cp .env.example .env
 
 5. For production, inject secrets from secret manager (Vault/KMS/SSM), not from committed files.
 
-## Local run
+## Development Setup (Local Only)
+
+**Note**: Virtual environments are for development only. Production uses Docker containers.
+
+### Prerequisites
+- Python 3.10-3.13
+- pip
+
+### 1. Create and activate virtual environment
 
 ```bash
 cd apps/terminal-backend
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip setuptools wheel
-python -m pip install --no-build-isolation -e .[dev]
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+### 2. Install dependencies
+
+```bash
+pip install --upgrade pip
+pip install -e ".[dev]"
+```
+
+### 3. Development workflow commands
+
+```bash
+# Run linting (fix auto-fixable issues)
+ruff check . --fix
+
+# Run linting (check only, no fixes)
+ruff check .
+
+# Run tests
+pytest
+
+# Run server in development mode
+uvicorn app.main:app --reload
+```
+
+### 4. Environment setup (required for KIS integration)
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit .env and populate with your KIS credentials:
+# - BACKEND_API_KEY (strong random key for API protection)
+# - KIS_APP_KEY (from KIS OpenAPI)
+# - KIS_APP_SECRET (from KIS OpenAPI)  
+# - KIS_ENV=paper (or 'live' for production)
+```
+
+## Local development run
+
+```bash
+cd apps/terminal-backend
+source .venv/bin/activate  # Development only
 uvicorn app.main:app --reload
 ```
 

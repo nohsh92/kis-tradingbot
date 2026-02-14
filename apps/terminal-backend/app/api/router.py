@@ -1,6 +1,16 @@
 from fastapi import APIRouter
 
-from app.api.v1 import auth, health, history, orders, positions, symbols, watchlists, workspaces, ws_gateway
+from app.api.v1 import (
+    auth,
+    health,
+    history,
+    orders,
+    positions,
+    symbols,
+    watchlists,
+    workspaces,
+    ws_gateway,
+)
 from app.core.config import get_settings
 
 settings = get_settings()
