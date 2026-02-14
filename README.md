@@ -199,3 +199,5 @@ These are starter pipelines and will be expanded as tooling is finalized.
 - Streaming is always snapshot then incremental.
 - Do not ship contract drift: every change should be reflected in OpenAPI/docs.
 - Prefer reliability and debuggability over early microservice fragmentation.
+- Before merging branch to master, ensure that tests exist in CI to check for any errors. If the tests do not exist, add them.
+
