@@ -1,6 +1,6 @@
 # KIS Trading Terminal Monorepo
 
-A single monorepo for building a Bloomberg-style Korean equity trading terminal with:
+A single monorepo for building a Korean equity trading terminal with:
 
 - **Desktop UI** (Electron + React + TypeScript)
 - **Backend services** (FastAPI + WebSocket + KIS connector + OMS)
