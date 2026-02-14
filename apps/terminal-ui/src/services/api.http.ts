@@ -1,29 +1,55 @@
-import type { Workspace } from "../state/workspaces.store";
+import type { Workspace } from '../state/workspaces.store';
+
+export interface SymbolSearchResult {
+  symbol: string;
+  name: string;
+  market: string;
+  halted: boolean;
+}
 
 export class WorkspaceApiClient {
-  constructor(private readonly baseUrl = "") {}
+  constructor(private readonly baseUrl = '') {}
 
   async listWorkspaces(): Promise<Workspace[]> {
-    return this.request<Workspace[]>("/workspaces", { method: "GET" });
+    return this.request<Workspace[]>('/workspaces', { method: 'GET' });
   }
 
   async getWorkspace(workspaceId: string): Promise<Workspace> {
-    return this.request<Workspace>(`/workspaces/${workspaceId}`, { method: "GET" });
+    return this.request<Workspace>(`/workspaces/${workspaceId}`, { method: 'GET' });
   }
 
-  async upsertWorkspace(workspace: Workspace): Promise<void> {
-    const method = workspace.id ? "PUT" : "POST";
-    const path = workspace.id ? `/workspaces/${workspace.id}` : "/workspaces";
-
-    await this.request(path, {
-      method,
+  async createWorkspace(workspace: Workspace): Promise<void> {
+    await this.request('/workspaces', {
+      method: 'POST',
       body: JSON.stringify(workspace),
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 
+  async updateWorkspace(workspace: Workspace): Promise<void> {
+    await this.request(`/workspaces/${workspace.id}`, {
+      method: 'PUT',
+      body: JSON.stringify(workspace),
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  async upsertWorkspace(workspace: Workspace, exists = true): Promise<void> {
+    if (exists) {
+      await this.updateWorkspace(workspace);
+      return;
+    }
+
+    await this.createWorkspace(workspace);
+  }
+
   async deleteWorkspace(workspaceId: string): Promise<void> {
-    await this.request(`/workspaces/${workspaceId}`, { method: "DELETE" });
+    await this.request(`/workspaces/${workspaceId}`, { method: 'DELETE' });
+  }
+
+  async searchSymbols(query: string): Promise<SymbolSearchResult[]> {
+    const safeQuery = encodeURIComponent(query);
+    return this.request<SymbolSearchResult[]>(`/symbols/search?q=${safeQuery}`, { method: 'GET' });
   }
 
   private async request<T = void>(path: string, init: RequestInit): Promise<T> {
